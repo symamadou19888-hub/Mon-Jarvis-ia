@@ -1,18 +1,20 @@
 class Jarvis:
     def __init__(self):
-        self.name = "Jarvis"
-        self.version = "1.0.0"
-        self.status = "Initialisation"
+        self.nom = "Jarvis"
+        self.version = "0.1"
 
     def start(self):
-        self.status = "En ligne"
+        print(f"{self.nom} version {self.version} démarré.")
+        print("Système prêt.")
 
-        print("=" * 40)
-        print(f"{self.name} v{self.version}")
-        print("Assistant IA personnel")
-        print(f"Statut : {self.status}")
-        print("=" * 40)
+        while True:
+            commande = input("Vous : ")
 
-    def stop(self):
-        self.status = "Arrêt"
-        print("Jarvis est arrêté.")
+            if commande.lower() in ["quitter", "exit", "stop"]:
+                print("Jarvis arrêté.")
+                break
+
+            self.traiter_commande(commande)
+
+    def traiter_commande(self, commande):
+        print(f"Jarvis analyse : {commande}")
