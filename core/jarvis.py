@@ -7,6 +7,7 @@ from skill_manager import SkillManager
 from brain_manager import BrainManager
 from logger import Logger
 from system_checker import SystemChecker
+from task_manager import TaskManager
 
 
 class Jarvis:
@@ -19,6 +20,7 @@ class Jarvis:
         self.brain_manager = BrainManager()
         self.logger = Logger()
         self.system_checker = SystemChecker()
+        self.task_manager = TaskManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -41,6 +43,7 @@ class Jarvis:
         self.agent_manager.afficher_agents()
         self.skill_manager.afficher_skills()
         self.brain_manager.afficher_brain()
+        self.task_manager.afficher_taches()
         print("Système prêt.")
 
         while True:
