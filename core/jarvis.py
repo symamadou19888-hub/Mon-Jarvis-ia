@@ -1,6 +1,7 @@
 import json
 import os
 from agent_manager import AgentManager
+from command_manager import CommandManager
 
 
 class Jarvis:
@@ -8,6 +9,7 @@ class Jarvis:
         self.config = self.charger_config()
         self.memoire = self.charger_memoire()
         self.agent_manager = AgentManager()
+        self.command_manager = CommandManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -40,4 +42,5 @@ class Jarvis:
             self.traiter_commande(commande)
 
     def traiter_commande(self, commande):
-        print(f"Jarvis analyse : {commande}")
+        resultat = self.command_manager.traiter(commande)
+        print(resultat)
