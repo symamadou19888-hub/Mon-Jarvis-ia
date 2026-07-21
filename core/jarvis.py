@@ -1,11 +1,13 @@
 import json
 import os
+from agent_manager import AgentManager
 
 
 class Jarvis:
     def __init__(self):
         self.config = self.charger_config()
         self.memoire = self.charger_memoire()
+        self.agent_manager = AgentManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -25,6 +27,7 @@ class Jarvis:
     def start(self):
         print(f"{self.nom} version {self.version} démarré.")
         print("Mémoire chargée.")
+        self.agent_manager.afficher_agents()
         print("Système prêt.")
 
         while True:
