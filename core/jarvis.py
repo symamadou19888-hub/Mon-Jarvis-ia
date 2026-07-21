@@ -5,6 +5,8 @@ import os
 class Jarvis:
     def __init__(self):
         self.config = self.charger_config()
+        self.memoire = self.charger_memoire()
+
         self.nom = self.config["nom"]
         self.version = self.config["version"]
 
@@ -14,8 +16,15 @@ class Jarvis:
         with open(chemin, "r", encoding="utf-8") as fichier:
             return json.load(fichier)
 
+    def charger_memoire(self):
+        chemin = os.path.join("memory", "memory.json")
+
+        with open(chemin, "r", encoding="utf-8") as fichier:
+            return json.load(fichier)
+
     def start(self):
         print(f"{self.nom} version {self.version} démarré.")
+        print("Mémoire chargée.")
         print("Système prêt.")
 
         while True:
