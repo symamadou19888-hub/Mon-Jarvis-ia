@@ -2,12 +2,13 @@ import json
 import os
 from agent_manager import AgentManager
 from command_manager import CommandManager
+from memory_manager import MemoryManager
 
 
 class Jarvis:
     def __init__(self):
         self.config = self.charger_config()
-        self.memoire = self.charger_memoire()
+        self.memory_manager = MemoryManager()
         self.agent_manager = AgentManager()
         self.command_manager = CommandManager()
 
@@ -16,12 +17,6 @@ class Jarvis:
 
     def charger_config(self):
         chemin = os.path.join("config", "settings.json")
-
-        with open(chemin, "r", encoding="utf-8") as fichier:
-            return json.load(fichier)
-
-    def charger_memoire(self):
-        chemin = os.path.join("memory", "memory.json")
 
         with open(chemin, "r", encoding="utf-8") as fichier:
             return json.load(fichier)
