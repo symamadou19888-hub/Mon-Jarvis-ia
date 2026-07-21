@@ -1,7 +1,18 @@
+import json
+import os
+
+
 class Jarvis:
     def __init__(self):
-        self.nom = "Jarvis"
-        self.version = "0.1"
+        self.config = self.charger_config()
+        self.nom = self.config["nom"]
+        self.version = self.config["version"]
+
+    def charger_config(self):
+        chemin = os.path.join("config", "settings.json")
+
+        with open(chemin, "r", encoding="utf-8") as fichier:
+            return json.load(fichier)
 
     def start(self):
         print(f"{self.nom} version {self.version} démarré.")
