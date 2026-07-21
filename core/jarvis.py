@@ -4,6 +4,7 @@ from agent_manager import AgentManager
 from command_manager import CommandManager
 from memory_manager import MemoryManager
 from skill_manager import SkillManager
+from brain_manager import BrainManager
 
 
 class Jarvis:
@@ -13,6 +14,7 @@ class Jarvis:
         self.agent_manager = AgentManager()
         self.command_manager = CommandManager()
         self.skill_manager = SkillManager()
+        self.brain_manager = BrainManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -28,6 +30,7 @@ class Jarvis:
         print("Mémoire chargée.")
         self.agent_manager.afficher_agents()
         self.skill_manager.afficher_skills()
+        self.brain_manager.afficher_brain()
         print("Système prêt.")
 
         while True:
