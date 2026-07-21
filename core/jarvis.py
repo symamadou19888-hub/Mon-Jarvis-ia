@@ -6,6 +6,7 @@ from memory_manager import MemoryManager
 from skill_manager import SkillManager
 from brain_manager import BrainManager
 from logger import Logger
+from system_checker import SystemChecker
 
 
 class Jarvis:
@@ -17,6 +18,7 @@ class Jarvis:
         self.skill_manager = SkillManager()
         self.brain_manager = BrainManager()
         self.logger = Logger()
+        self.system_checker = SystemChecker()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -28,6 +30,10 @@ class Jarvis:
             return json.load(fichier)
 
     def start(self):
+        if not self.system_checker.verifier():
+            print("Erreur : système incomplet.")
+            return
+
         self.logger.enregistrer("Démarrage de Jarvis")
 
         print(f"{self.nom} version {self.version} démarré.")
