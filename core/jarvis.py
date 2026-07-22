@@ -9,6 +9,7 @@ from logger import Logger
 from system_checker import SystemChecker
 from task_manager import TaskManager
 from project_manager import ProjectManager
+from data_manager import DataManager
 
 
 class Jarvis:
@@ -23,6 +24,7 @@ class Jarvis:
         self.system_checker = SystemChecker()
         self.task_manager = TaskManager()
         self.project_manager = ProjectManager()
+        self.data_manager = DataManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
