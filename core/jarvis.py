@@ -12,6 +12,7 @@ from project_manager import ProjectManager
 from data_manager import DataManager
 from event_manager import EventManager
 from context_manager import ContextManager
+from knowledge_manager import KnowledgeManager
 
 
 class Jarvis:
@@ -29,6 +30,7 @@ class Jarvis:
         self.data_manager = DataManager()
         self.event_manager = EventManager()
         self.context_manager = ContextManager()
+        self.knowledge_manager = KnowledgeManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -53,6 +55,7 @@ class Jarvis:
         self.brain_manager.afficher_brain()
         self.task_manager.afficher_taches()
         self.project_manager.afficher_projets()
+        self.knowledge_manager.afficher_connaissances()
         print("Système prêt.")
 
         while True:
