@@ -10,6 +10,7 @@ from system_checker import SystemChecker
 from task_manager import TaskManager
 from project_manager import ProjectManager
 from data_manager import DataManager
+from event_manager import EventManager
 
 
 class Jarvis:
@@ -25,6 +26,7 @@ class Jarvis:
         self.task_manager = TaskManager()
         self.project_manager = ProjectManager()
         self.data_manager = DataManager()
+        self.event_manager = EventManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
