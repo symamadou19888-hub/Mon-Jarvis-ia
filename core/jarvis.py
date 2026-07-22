@@ -11,6 +11,7 @@ from task_manager import TaskManager
 from project_manager import ProjectManager
 from data_manager import DataManager
 from event_manager import EventManager
+from context_manager import ContextManager
 
 
 class Jarvis:
@@ -27,6 +28,7 @@ class Jarvis:
         self.project_manager = ProjectManager()
         self.data_manager = DataManager()
         self.event_manager = EventManager()
+        self.context_manager = ContextManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
