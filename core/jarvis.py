@@ -13,7 +13,6 @@ from data_manager import DataManager
 from event_manager import EventManager
 from context_manager import ContextManager
 from knowledge_manager import KnowledgeManager
-from brain_loader import BrainLoader
 
 
 class Jarvis:
@@ -32,7 +31,6 @@ class Jarvis:
         self.event_manager = EventManager()
         self.context_manager = ContextManager()
         self.knowledge_manager = KnowledgeManager()
-        self.brain_loader = BrainLoader()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -50,14 +48,11 @@ class Jarvis:
 
         self.logger.enregistrer("Démarrage de Jarvis")
 
-        self.brain_loader.charger()
-
         print(f"{self.nom} version {self.version} démarré.")
         print("Mémoire chargée.")
         self.agent_manager.afficher_agents()
         self.skill_manager.afficher_skills()
         self.brain_manager.afficher_brain()
-        self.brain_loader.afficher()
         self.task_manager.afficher_taches()
         self.project_manager.afficher_projets()
         self.knowledge_manager.afficher_connaissances()
