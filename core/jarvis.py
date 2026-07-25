@@ -13,6 +13,7 @@ from data_manager import DataManager
 from event_manager import EventManager
 from context_manager import ContextManager
 from knowledge_manager import KnowledgeManager
+from decision_engine import DecisionEngine
 
 
 class Jarvis:
@@ -31,6 +32,11 @@ class Jarvis:
         self.event_manager = EventManager()
         self.context_manager = ContextManager()
         self.knowledge_manager = KnowledgeManager()
+
+        self.decision_engine = DecisionEngine(
+            self.brain_manager,
+            self.agent_manager
+        )
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -72,4 +78,14 @@ class Jarvis:
         self.logger.enregistrer(f"Commande reçue : {commande}")
 
         resultat = self.command_manager.traiter(commande)
-        print(resultat)
+
+        if "Commande inconnue" in resultat:
+            decision = self.decision_engine.analyser(commande)
+
+            print("Analyse de Jarvis :")
+            print("- Objectif :", decision["objectif"])
+            print("- Agent choisi :", decision["agent"])
+            print("- Action :", decision["action"])
+
+        else:
+            print(resultat)
