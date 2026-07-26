@@ -18,3 +18,13 @@ class MemoryManager:
     def ajouter_souvenir(self, souvenir):
         self.memoire["souvenirs"].append(souvenir)
         self.sauvegarder()
+
+    def ajouter_echange(self, question, reponse):
+        self.memoire["historique"].append({
+            "question": question,
+            "reponse": reponse
+        })
+        self.sauvegarder()
+
+    def obtenir_historique_recent(self, nombre=5):
+        return self.memoire["historique"][-nombre:]

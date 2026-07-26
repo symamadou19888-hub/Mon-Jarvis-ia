@@ -1,5 +1,18 @@
 {
-  "souvenirs": [],
-  "notes": [],
-  "historique": []
+    "souvenirs": [],
+    "notes": [],
+    "historique": [
+        {
+            "question": "Je m'appelle comment déjà ? Non attends, je vais te le dire : je m'appelle Mado",
+            "reponse": "Enchanté, Mado ! Il est plaisant de faire votre connaissance. Comment allez-vous aujourd'hui ? Y a-t-il quelque chose dont vous aimeriez discuter ou une question que vous aimeriez poser ? Je suis là pour vous écouter et vous aider si besoin."
+        },
+        {
+            "question": "Quel est mon prénom ?",
+            "reponse": "Votre prénom est Mado ! Vous me l'avez dit vous-même au début de notre conversation."
+        },
+        {
+            "question": "Crée un fichier test.txt à la racine du projet qui contient le texte \"Jarvis a réussi son premier test d'écriture\"",
+            "reponse": "Le fichier test.txt a bien été créé à la racine du projet avec le contenu spécifié. Si vous souhaitez vérifier son contenu, vous pouvez utiliser la fonction `lire_fichier`."
+        }
+    ]
 }
