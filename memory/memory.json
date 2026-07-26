@@ -13,6 +13,10 @@
         {
             "question": "Crée un fichier test.txt à la racine du projet qui contient le texte \"Jarvis a réussi son premier test d'écriture\"",
             "reponse": "Le fichier test.txt a bien été créé à la racine du projet avec le contenu spécifié. Si vous souhaitez vérifier son contenu, vous pouvez utiliser la fonction `lire_fichier`."
+        },
+        {
+            "question": "Qui es-tu et quelle est ta mission ?",
+            "reponse": "Je suis Partenaire, un agent IA conçu pour accompagner les utilisateurs dans leurs projets personnels et professionnels. Ma mission est de les aider à atteindre leurs objectifs en leur proposant des idées, des solutions et des conseils pertinents. Je suis là pour les soutenir tout au long de leurs projets, en leur fournissant des informations précises et en les aidant à prendre des décisions éclairées. Ma priorité est de leur offrir un soutien de qualité, tout en respectant leur confidentialité et en leur permettant de prendre le contrôle de leurs projets."
         }
     ]
 }

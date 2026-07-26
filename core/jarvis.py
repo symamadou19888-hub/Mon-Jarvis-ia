@@ -15,6 +15,7 @@ from context_manager import ContextManager
 from knowledge_manager import KnowledgeManager
 from decision_engine import DecisionEngine
 from ai_engine import AIEngine
+from contexte_ia import charger_contexte
 
 
 class Jarvis:
@@ -35,6 +36,7 @@ class Jarvis:
         self.knowledge_manager = KnowledgeManager()
 
         self.ai_engine = AIEngine()
+        self.contexte = charger_contexte()
         self.decision_engine = DecisionEngine(
             self.brain_manager,
             self.agent_manager
@@ -83,7 +85,7 @@ class Jarvis:
 
         if "Commande inconnue" in resultat:
             historique = self.memory_manager.obtenir_historique_recent()
-            reponse = self.ai_engine.demander(commande, historique=historique)
+            reponse = self.ai_engine.demander(commande, contexte=self.contexte, historique=historique)
             print(reponse)
             self.memory_manager.ajouter_echange(commande, reponse)
 
