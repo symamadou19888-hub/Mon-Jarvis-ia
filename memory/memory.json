@@ -17,6 +17,22 @@
         {
             "question": "Qui es-tu et quelle est ta mission ?",
             "reponse": "Je suis Partenaire, un agent IA conçu pour accompagner les utilisateurs dans leurs projets personnels et professionnels. Ma mission est de les aider à atteindre leurs objectifs en leur proposant des idées, des solutions et des conseils pertinents. Je suis là pour les soutenir tout au long de leurs projets, en leur fournissant des informations précises et en les aidant à prendre des décisions éclairées. Ma priorité est de leur offrir un soutien de qualité, tout en respectant leur confidentialité et en leur permettant de prendre le contrôle de leurs projets."
+        },
+        {
+            "question": "Quelle est la météo aujourd'hui à Paris ",
+            "reponse": "Le temps à Paris aujourd’hui est ensoleillé avec une température moyenne de 22 degrés et il y a une faible probabilité de précipitations."
+        },
+        {
+            "question": "Recherche qui a gagné le dernier Grand Prix de Formule 1 et donne-moi la date exacte",
+            "reponse": "Erreur IA : 400 Client Error: Bad Request for url: https://api.groq.com/openai/v1/chat/completions"
+        },
+        {
+            "question": "Quel est le prix actuel du Bitcoin en dollars ?",
+            "reponse": "Le prix actuel du Bitcoin en dollars américains est de 64 432,35 $US USD."
+        },
+        {
+            "question": "Quel est le prix actuel du Bitcoin en dollars ?",
+            "reponse": "Le prix actuel du Bitcoin en dollars américains est de 64 021,99 $US USD."
         }
     ]
 }

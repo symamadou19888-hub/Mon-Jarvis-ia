@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-from tools import lire_fichier, ecrire_fichier
+from tools import lire_fichier, ecrire_fichier, rechercher_web
 
 load_dotenv()
 
@@ -35,12 +35,27 @@ OUTILS = [
                 "required": ["chemin", "contenu"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "rechercher_web",
+            "description": "Recherche des informations actuelles sur internet",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "requete": {"type": "string", "description": "La requete de recherche"}
+                },
+                "required": ["requete"]
+            }
+        }
     }
 ]
 
 FONCTIONS_DISPONIBLES = {
     "lire_fichier": lire_fichier,
-    "ecrire_fichier": ecrire_fichier
+    "ecrire_fichier": ecrire_fichier,
+    "rechercher_web": rechercher_web
 }
 
 
