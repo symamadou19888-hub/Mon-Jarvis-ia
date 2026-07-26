@@ -17,4 +17,6 @@ def charger_contexte():
             with open(chemin, "r", encoding="utf-8") as f:
                 contenu_total += f.read() + "\n\n"
 
+    regle = chr(10) + chr(10) + "REGLE IMPORTANTE : Utilise un outil seulement si la demande est explicite. Ne fais jamais une action non demandee, meme si elle semble utile. En cas de doute, demande confirmation avant agir."
+    contenu_total += regle
     return contenu_total

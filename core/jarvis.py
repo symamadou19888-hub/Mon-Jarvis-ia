@@ -93,7 +93,8 @@ class Jarvis:
             historique = self.memory_manager.obtenir_historique_recent()
             reponse = self.ai_engine.demander(commande, contexte=contexte_complet, historique=historique)
             print(reponse)
-            self.memory_manager.ajouter_echange(commande, reponse)
+            if not reponse.startswith("Erreur IA"):
+                self.memory_manager.ajouter_echange(commande, reponse)
 
         else:
             print(resultat)

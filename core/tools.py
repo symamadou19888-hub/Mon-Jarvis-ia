@@ -1,4 +1,5 @@
 import os
+import json
 
 DOSSIER_AUTORISE = os.getcwd()
 
@@ -40,3 +41,48 @@ def rechercher_web(requete):
         return texte if texte else "Aucun resultat trouve."
     except Exception as e:
         return f"Erreur recherche web : {e}"
+
+CHEMIN_DONNEES = os.path.join("data", "projets_taches.json")
+
+def _charger_donnees():
+    if not os.path.exists(CHEMIN_DONNEES):
+        return {"projets": [], "taches": []}
+    with open(CHEMIN_DONNEES, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def _sauvegarder_donnees(donnees):
+    with open(CHEMIN_DONNEES, "w", encoding="utf-8") as f:
+        json.dump(donnees, f, indent=4, ensure_ascii=False)
+
+def creer_projet(nom):
+    donnees = _charger_donnees()
+    donnees["projets"].append({"nom": nom, "statut": "en cours"})
+    _sauvegarder_donnees(donnees)
+    return f"Projet '{nom}' cree avec succes."
+
+def ajouter_tache(nom, projet=""):
+    donnees = _charger_donnees()
+    donnees["taches"].append({"nom": nom, "projet": projet, "statut": "en attente"})
+    _sauvegarder_donnees(donnees)
+    return f"Tache '{nom}' ajoutee avec succes."
+
+def lister_projets():
+    donnees = _charger_donnees()
+    if not donnees["projets"]:
+        return "Aucun projet enregistre."
+    texte = ""
+    for p in donnees["projets"]:
+        texte += f"- {p['nom']} ({p['statut']})\n"
+    return texte
+
+def lister_taches():
+    donnees = _charger_donnees()
+    if not donnees["taches"]:
+        return "Aucune tache enregistree."
+    texte = ""
+    for t in donnees["taches"]:
+        texte += f"- {t['nom']} [{t['statut']}]"
+        if t["projet"]:
+            texte += f" (projet: {t['projet']})"
+        texte += "\n"
+    return texte

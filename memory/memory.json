@@ -1,58 +1,5 @@
 {
     "souvenirs": [],
     "notes": [],
-    "historique": [
-        {
-            "question": "Je m'appelle comment déjà ? Non attends, je vais te le dire : je m'appelle Mado",
-            "reponse": "Enchanté, Mado ! Il est plaisant de faire votre connaissance. Comment allez-vous aujourd'hui ? Y a-t-il quelque chose dont vous aimeriez discuter ou une question que vous aimeriez poser ? Je suis là pour vous écouter et vous aider si besoin."
-        },
-        {
-            "question": "Quel est mon prénom ?",
-            "reponse": "Votre prénom est Mado ! Vous me l'avez dit vous-même au début de notre conversation."
-        },
-        {
-            "question": "Crée un fichier test.txt à la racine du projet qui contient le texte \"Jarvis a réussi son premier test d'écriture\"",
-            "reponse": "Le fichier test.txt a bien été créé à la racine du projet avec le contenu spécifié. Si vous souhaitez vérifier son contenu, vous pouvez utiliser la fonction `lire_fichier`."
-        },
-        {
-            "question": "Qui es-tu et quelle est ta mission ?",
-            "reponse": "Je suis Partenaire, un agent IA conçu pour accompagner les utilisateurs dans leurs projets personnels et professionnels. Ma mission est de les aider à atteindre leurs objectifs en leur proposant des idées, des solutions et des conseils pertinents. Je suis là pour les soutenir tout au long de leurs projets, en leur fournissant des informations précises et en les aidant à prendre des décisions éclairées. Ma priorité est de leur offrir un soutien de qualité, tout en respectant leur confidentialité et en leur permettant de prendre le contrôle de leurs projets."
-        },
-        {
-            "question": "Quelle est la météo aujourd'hui à Paris ",
-            "reponse": "Le temps à Paris aujourd’hui est ensoleillé avec une température moyenne de 22 degrés et il y a une faible probabilité de précipitations."
-        },
-        {
-            "question": "Recherche qui a gagné le dernier Grand Prix de Formule 1 et donne-moi la date exacte",
-            "reponse": "Erreur IA : 400 Client Error: Bad Request for url: https://api.groq.com/openai/v1/chat/completions"
-        },
-        {
-            "question": "Quel est le prix actuel du Bitcoin en dollars ?",
-            "reponse": "Le prix actuel du Bitcoin en dollars américains est de 64 432,35 $US USD."
-        },
-        {
-            "question": "Quel est le prix actuel du Bitcoin en dollars ?",
-            "reponse": "Le prix actuel du Bitcoin en dollars américains est de 64 021,99 $US USD."
-        },
-        {
-            "question": "Peux-tu m'aider à écrire une fonction Python qui vérifie si un nombre est premier ?",
-            "reponse": "Cette fonction `est_premier` prend un nombre `n` en entrée et retourne `True` si le nombre est premier, et `False` sinon. Vous pouvez utiliser cette fonction pour vérifier si un nombre est premier. Il suffit d'appeler la fonction avec le nombre en question, comme ceci : `est_premier(25)`. La fonction retournera `False` pour 25, car 25 n'est pas un nombre premier."
-        },
-        {
-            "question": "Écris-moi le code complet de cette fonction, avec des balises de code",
-            "reponse": "```python\ndef est_premier(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n# Exemple d'utilisation\nprint(est_premier(25))  # Retourne False\nprint(est_premier(23))  # Retourne True\n```"
-        },
-        {
-            "question": "J'ai besoin de trouver des informations sur les tendances actuelles en intelligence artificielle",
-            "reponse": "Erreur IA : 400 Client Error: Bad Request for url: https://api.groq.com/openai/v1/chat/completions"
-        },
-        {
-            "question": "\u0018",
-            "reponse": "Erreur IA : 400 Client Error: Bad Request for url: https://api.groq.com/openai/v1/chat/completions"
-        },
-        {
-            "question": "J'ai besoin de trouver des informations sur les tendances actuelles en intelligence artificielle",
-            "reponse": "Les tendances actuelles en intelligence artificielle incluent l'utilisation de l'apprentissage automatique, du traitement du langage naturel, de la vision par ordinateur et de l'Internet des objets (IoT). Les entreprises investissent dans l'adoption de l'IA pour améliorer l'efficacité, la prise de décision et l'expérience client. Les avancées en matière d'IA ont également des implications éthiques et sociétales, telles que la responsabilité, la transparence et la sécurité des données. Les recherches se poursuivent pour développer des systèmes d'IA plus autonomes, plus intelligents et plus intégrés dans la vie quotidienne."
-        }
-    ]
+    "historique": []
 }
