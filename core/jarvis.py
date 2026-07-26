@@ -84,8 +84,14 @@ class Jarvis:
         resultat = self.command_manager.traiter(commande)
 
         if "Commande inconnue" in resultat:
+            agent = self.decision_engine.choisir_agent(commande)
+            print(f"[Agent : {agent}]")
+
+            contexte_agent = self.decision_engine.obtenir_contexte_agent(agent)
+            contexte_complet = self.contexte + "\n\n" + contexte_agent
+
             historique = self.memory_manager.obtenir_historique_recent()
-            reponse = self.ai_engine.demander(commande, contexte=self.contexte, historique=historique)
+            reponse = self.ai_engine.demander(commande, contexte=contexte_complet, historique=historique)
             print(reponse)
             self.memory_manager.ajouter_echange(commande, reponse)
 
