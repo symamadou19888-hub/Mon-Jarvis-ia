@@ -2,6 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
+from agent_permissions import filtrer_outils
 
 load_dotenv()
 
@@ -90,6 +91,7 @@ class DecisionEngine:
 
             outils = data.get("outils_suggeres", [])
             outils = [o for o in outils if o in self.outils_disponibles]
+            outils = filtrer_outils(agent, outils)
 
             return {
                 "agent": agent,
