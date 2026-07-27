@@ -123,21 +123,6 @@ FONCTIONS_DISPONIBLES = {
 }
 
 
-def _convertir_outils_gemini(outils):
-    declarations = []
-    for outil in outils:
-        fonction = outil["function"]
-        declarations.append({
-            "name": fonction["name"],
-            "description": fonction["description"],
-            "parameters": fonction["parameters"]
-        })
-    return [{"functionDeclarations": declarations}]
-
-
-OUTILS_GEMINI = _convertir_outils_gemini(OUTILS)
-
-
 class AIEngine:
     def __init__(self):
         self.api_key = os.getenv("GROQ_API_KEY")
@@ -150,10 +135,7 @@ class AIEngine:
         try:
             return self._demander_groq(message, contexte, historique)
         except Exception:
-            try:
-                return self._demander_gemini(message, contexte, historique)
-            except Exception as e:
-                return "Erreur IA (Groq et Gemini ont echoue) : " + str(e)
+            return self._demander_gemini(message, contexte, historique)
 
     def _demander_groq(self, message, contexte="", historique=None):
         headers = {
@@ -201,47 +183,28 @@ class AIEngine:
         raise Exception("Trop d'appels d'outils enchaines.")
 
     def _demander_gemini(self, message, contexte="", historique=None):
-        contents = []
+        texte_complet = ""
+        if contexte:
+            texte_complet += contexte + "\n\n"
 
         if historique:
             for echange in historique:
-                contents.append({"role": "user", "parts": [{"text": echange["question"]}]})
-                contents.append({"role": "model", "parts": [{"text": echange["reponse"]}]})
+                texte_complet += "Utilisateur: " + echange["question"] + "\n"
+                texte_complet += "Assistant: " + echange["reponse"] + "\n"
 
-        contents.append({"role": "user", "parts": [{"text": message}]})
+        texte_complet += "Utilisateur: " + message
 
-        payload = {"contents": contents, "tools": OUTILS_GEMINI}
-        if contexte:
-            payload["systemInstruction"] = {"parts": [{"text": contexte}]}
+        payload = {
+            "contents": [{"parts": [{"text": texte_complet}]}]
+        }
 
         url = self.gemini_url + "?key=" + self.gemini_key
 
-        for _ in range(5):
+        try:
             reponse = requests.post(url, json=payload, timeout=30)
             reponse.raise_for_status()
             data = reponse.json()
-            candidat = data["candidates"][0]["content"]
-
-            appels_fonction = [p["functionCall"] for p in candidat.get("parts", []) if "functionCall" in p]
-
-            if appels_fonction:
-                contents.append(candidat)
-                parts_resultats = []
-                for appel in appels_fonction:
-                    nom_fonction = appel["name"]
-                    arguments = appel.get("args", {}) or {}
-                    fonction = FONCTIONS_DISPONIBLES.get(nom_fonction)
-                    resultat = fonction(**arguments) if fonction else "Outil inconnu."
-                    parts_resultats.append({
-                        "functionResponse": {
-                            "name": nom_fonction,
-                            "response": {"resultat": str(resultat)}
-                        }
-                    })
-                contents.append({"role": "user", "parts": parts_resultats})
-                payload["contents"] = contents
-            else:
-                textes = [p.get("text", "") for p in candidat.get("parts", [])]
-                return "[Secours Gemini] " + "".join(textes)
-
-        raise Exception("Trop d'appels d'outils enchaines (Gemini).")
+            texte = data["candidates"][0]["content"]["parts"][0]["text"]
+            return "[Secours Gemini] " + texte
+        except Exception as e:
+            return "Erreur IA (Groq et Gemini ont echoue) : " + str(e)

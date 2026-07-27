@@ -23,6 +23,18 @@
             "statut": "nouvelle",
             "date_creation": "2026-07-26T23:28:55",
             "date_maj": "2026-07-26T23:28:55"
+        },
+        {
+            "id": "3c346245",
+            "nom": "Creer un fichier notes.txt avec le texte test final",
+            "objectif": "Crée un fichier notes.txt avec le texte \"test final\"",
+            "agents": [
+                "01_developpeur"
+            ],
+            "priorite": "normale",
+            "statut": "nouvelle",
+            "date_creation": "2026-07-27T00:23:28",
+            "date_maj": "2026-07-27T00:23:28"
         }
     ]
 }
