@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-from tools import lire_fichier, ecrire_fichier, supprimer_fichier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches
+from tools import lire_fichier, ecrire_fichier, supprimer_fichier, lister_fichiers, creer_dossier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches
 
 load_dotenv()
 
@@ -45,6 +45,34 @@ OUTILS = [
                 "type": "object",
                 "properties": {
                     "chemin": {"type": "string", "description": "Chemin relatif du fichier a supprimer"}
+                },
+                "required": ["chemin"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "lister_fichiers",
+            "description": "Liste les fichiers et dossiers presents dans un dossier du projet",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "dossier": {"type": "string", "description": "Chemin relatif du dossier a lister, par defaut le dossier racine"}
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "creer_dossier",
+            "description": "Cree un nouveau dossier dans le projet",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "chemin": {"type": "string", "description": "Chemin relatif du dossier a creer"}
                 },
                 "required": ["chemin"]
             }
@@ -115,6 +143,8 @@ FONCTIONS_DISPONIBLES = {
     "lire_fichier": lire_fichier,
     "ecrire_fichier": ecrire_fichier,
     "supprimer_fichier": supprimer_fichier,
+    "lister_fichiers": lister_fichiers,
+    "creer_dossier": creer_dossier,
     "rechercher_web": rechercher_web,
     "creer_projet": creer_projet,
     "ajouter_tache": ajouter_tache,

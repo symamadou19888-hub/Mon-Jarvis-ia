@@ -29,6 +29,28 @@ def supprimer_fichier(chemin):
     os.remove(chemin_complet)
     return f"Fichier {chemin} supprime avec succes."
 
+def lister_fichiers(dossier="."):
+    chemin_complet = os.path.abspath(dossier)
+    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+        return "Erreur : accès refusé en dehors du projet."
+    if not os.path.exists(chemin_complet):
+        return f"Erreur : le dossier {dossier} n'existe pas."
+    if not os.path.isdir(chemin_complet):
+        return f"Erreur : {dossier} n'est pas un dossier."
+    elements = os.listdir(chemin_complet)
+    if not elements:
+        return f"Le dossier {dossier} est vide."
+    return "\n".join(sorted(elements))
+
+def creer_dossier(chemin):
+    chemin_complet = os.path.abspath(chemin)
+    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+        return "Erreur : accès refusé en dehors du projet."
+    if os.path.exists(chemin_complet):
+        return f"Le dossier {chemin} existe deja."
+    os.makedirs(chemin_complet)
+    return f"Dossier {chemin} cree avec succes."
+
 import requests as _requests
 
 def rechercher_web(requete):
