@@ -35,6 +35,18 @@
             "statut": "nouvelle",
             "date_creation": "2026-07-27T00:23:28",
             "date_maj": "2026-07-27T00:23:28"
+        },
+        {
+            "id": "6d2c8711",
+            "nom": "Supprimer le fichier essai.txt",
+            "objectif": "Supprime le fichier essai.txt",
+            "agents": [
+                "11_gestionnaire_outils_ia"
+            ],
+            "priorite": "normale",
+            "statut": "terminee",
+            "date_creation": "2026-07-27T00:41:39",
+            "date_maj": "2026-07-27T00:41:44"
         }
     ]
 }

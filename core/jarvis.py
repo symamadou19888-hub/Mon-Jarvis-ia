@@ -15,6 +15,7 @@ from context_manager import ContextManager
 from knowledge_manager import KnowledgeManager
 from decision_engine import DecisionEngine
 from mission_manager import MissionManager
+from coordination_manager import CoordinationManager
 from ai_engine import AIEngine
 from contexte_ia import charger_contexte
 
@@ -43,6 +44,7 @@ class Jarvis:
             self.agent_manager
         )
         self.mission_manager = MissionManager()
+        self.coordination_manager = CoordinationManager(self.mission_manager, self.logger)
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -91,6 +93,9 @@ class Jarvis:
             agent = decision["agent"]
             analyse = decision["analyse"]
 
+            self.coordination_manager.preparer(decision, commande)
+
+            mission_id = None
             print(f"[Agent : {agent}]")
             if analyse.get("validation_requise"):
                 print(f"[Attention : cette action peut avoir un impact important - risques : {analyse.get('risques')}]")
@@ -100,16 +105,23 @@ class Jarvis:
                     agents=[agent],
                     priorite="haute" if analyse.get("risques") in ["moyen", "eleve"] else "normale"
                 )
-                print(f"[Mission creee : {mission['id']}]")
+                mission_id = mission["id"]
+                print(f"[Mission creee : {mission_id}]")
+                self.coordination_manager.demarrer_mission(mission_id)
 
             contexte_agent = self.decision_engine.obtenir_contexte_agent(agent)
             contexte_complet = self.contexte + "\n\n" + contexte_agent
 
             historique = self.memory_manager.obtenir_historique_recent()
             reponse = self.ai_engine.demander(commande, contexte=contexte_complet, historique=historique)
+
+            self.coordination_manager.superviser_resultat(reponse, mission_id)
+            reponse = self.coordination_manager.livrer(reponse, mission_id)
+
             print(reponse)
             if not reponse.startswith("Erreur IA"):
-                self.memory_manager.ajouter_echange(commande, reponse)
+                reponse_a_memoriser = reponse.replace("[Secours Gemini] ", "").strip()
+                self.memory_manager.ajouter_echange(commande, reponse_a_memoriser)
 
         else:
             print(resultat)

@@ -1,34 +1,5 @@
 {
     "souvenirs": [],
     "notes": [],
-    "historique": [
-        {
-            "question": "/Crée un fichier test.txt avec le texte \"test\"",
-            "reponse": "Le contenu du fichier test.txt est \"test\"."
-        },
-        {
-            "question": "\u0018",
-            "reponse": "Le contenu du fichier test.txt est \"test\"."
-        },
-        {
-            "question": "Supprime le fichier test.txt",
-            "reponse": "Le fichier test.txt est vide, il a donc été supprimé avec succès."
-        },
-        {
-            "question": "Bonjour, comment vas-tu ?",
-            "reponse": "[Secours Gemini] Bonjour ! Je vais très bien, merci. Tout est prêt de mon côté pour vous accompagner dans vos projets. \n\nComment puis-je vous aider aujourd'hui ?"
-        },
-        {
-            "question": "Crée un fichier notes.txt avec le texte \"test du nouveau moteur\"",
-            "reponse": "[Secours Gemini] Le fichier **notes.txt** a été créé avec le texte : \"test du nouveau moteur\"."
-        },
-        {
-            "question": "Crée un fichier notes.txt avec le texte \"test final\"",
-            "reponse": "[Secours Gemini] Le fichier **notes.txt** a été créé avec le texte : \"test final\"."
-        },
-        {
-            "question": "\u0018",
-            "reponse": "[Secours Gemini] Bonjour ! Je suis à votre écoute. \n\nAvez-vous une tâche ou un projet sur lequel vous souhaitez travailler aujourd'hui ?"
-        }
-    ]
+    "historique": []
 }
