@@ -16,6 +16,7 @@ from knowledge_manager import KnowledgeManager
 from decision_engine import DecisionEngine
 from mission_manager import MissionManager
 from coordination_manager import CoordinationManager
+from validation_manager import ValidationManager
 from ai_engine import AIEngine
 from contexte_ia import charger_contexte
 
@@ -45,6 +46,7 @@ class Jarvis:
         )
         self.mission_manager = MissionManager()
         self.coordination_manager = CoordinationManager(self.mission_manager, self.logger)
+        self.validation_manager = ValidationManager(self.logger)
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -114,6 +116,14 @@ class Jarvis:
 
             historique = self.memory_manager.obtenir_historique_recent()
             reponse = self.ai_engine.demander(commande, contexte=contexte_complet, historique=historique)
+
+            validation = self.validation_manager.valider(reponse, mission_id)
+            if not validation["valide"]:
+                print(f"[Validation echouee : {validation['avertissement']}]")
+                if mission_id:
+                    self.mission_manager.mettre_a_jour_statut(mission_id, "bloquee")
+            elif validation.get("avertissement"):
+                print(f"[Avertissement : {validation['avertissement']}]")
 
             self.coordination_manager.superviser_resultat(reponse, mission_id)
             reponse = self.coordination_manager.livrer(reponse, mission_id)
