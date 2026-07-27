@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-from tools import lire_fichier, ecrire_fichier, supprimer_fichier, lister_fichiers, creer_dossier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches
+from tools import lire_fichier, ecrire_fichier, supprimer_fichier, lister_fichiers, creer_dossier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches, github_lister_repos, github_lire_fichier, github_ecrire_fichier
 
 load_dotenv()
 
@@ -81,6 +81,46 @@ OUTILS = [
     {
         "type": "function",
         "function": {
+            "name": "github_lister_repos",
+            "description": "Liste les depots GitHub de l'utilisateur",
+            "parameters": {"type": "object", "properties": {}}
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "github_lire_fichier",
+            "description": "Lit le contenu d'un fichier depuis un depot GitHub",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "repo": {"type": "string", "description": "Nom complet du depot, format utilisateur/repo"},
+                    "chemin": {"type": "string", "description": "Chemin du fichier dans le depot"}
+                },
+                "required": ["repo", "chemin"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "github_ecrire_fichier",
+            "description": "Cree ou met a jour un fichier dans un depot GitHub avec un commit",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "repo": {"type": "string", "description": "Nom complet du depot, format utilisateur/repo"},
+                    "chemin": {"type": "string", "description": "Chemin du fichier dans le depot"},
+                    "contenu": {"type": "string", "description": "Nouveau contenu du fichier"},
+                    "message": {"type": "string", "description": "Message du commit"}
+                },
+                "required": ["repo", "chemin", "contenu"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "rechercher_web",
             "description": "Recherche des informations actuelles sur internet",
             "parameters": {
@@ -145,6 +185,9 @@ FONCTIONS_DISPONIBLES = {
     "supprimer_fichier": supprimer_fichier,
     "lister_fichiers": lister_fichiers,
     "creer_dossier": creer_dossier,
+    "github_lister_repos": github_lister_repos,
+    "github_lire_fichier": github_lire_fichier,
+    "github_ecrire_fichier": github_ecrire_fichier,
     "rechercher_web": rechercher_web,
     "creer_projet": creer_projet,
     "ajouter_tache": ajouter_tache,

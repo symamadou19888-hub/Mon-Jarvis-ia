@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 
 DOSSIER_AUTORISE = os.getcwd()
 
@@ -117,3 +118,53 @@ def lister_taches():
             texte += f" (projet: {t['projet']})"
         texte += "\n"
     return texte
+
+
+import base64
+
+def _headers_github():
+    token = os.getenv("GITHUB_TOKEN")
+    return {"Authorization": f"token {token}", "Accept": "application/vnd.github+json"}
+
+def github_lister_repos():
+    url = "https://api.github.com/user/repos"
+    try:
+        r = requests.get(url, headers=_headers_github(), timeout=15)
+        r.raise_for_status()
+        repos = r.json()
+        if not repos:
+            return "Aucun depot trouve."
+        return "\n".join(f"- {repo['full_name']}" for repo in repos)
+    except Exception as e:
+        return f"Erreur GitHub : {e}"
+
+def github_lire_fichier(repo, chemin):
+    url = f"https://api.github.com/repos/{repo}/contents/{chemin}"
+    try:
+        r = requests.get(url, headers=_headers_github(), timeout=15)
+        r.raise_for_status()
+        data = r.json()
+        contenu_b64 = data.get("content", "")
+        contenu_decode = base64.b64decode(contenu_b64).decode("utf-8")
+        return contenu_decode
+    except Exception as e:
+        return f"Erreur GitHub : {e}"
+
+def github_ecrire_fichier(repo, chemin, contenu, message="Mise a jour via Jarvis"):
+    url = f"https://api.github.com/repos/{repo}/contents/{chemin}"
+    try:
+        sha = None
+        r_check = requests.get(url, headers=_headers_github(), timeout=15)
+        if r_check.status_code == 200:
+            sha = r_check.json().get("sha")
+
+        contenu_b64 = base64.b64encode(contenu.encode("utf-8")).decode("utf-8")
+        payload = {"message": message, "content": contenu_b64}
+        if sha:
+            payload["sha"] = sha
+
+        r = requests.put(url, headers=_headers_github(), json=payload, timeout=15)
+        r.raise_for_status()
+        return f"Fichier {chemin} envoye avec succes sur {repo}."
+    except Exception as e:
+        return f"Erreur GitHub : {e}"
