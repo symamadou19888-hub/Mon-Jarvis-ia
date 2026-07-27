@@ -14,6 +14,7 @@ from event_manager import EventManager
 from context_manager import ContextManager
 from knowledge_manager import KnowledgeManager
 from decision_engine import DecisionEngine
+from mission_manager import MissionManager
 from ai_engine import AIEngine
 from contexte_ia import charger_contexte
 
@@ -41,6 +42,7 @@ class Jarvis:
             self.brain_manager,
             self.agent_manager
         )
+        self.mission_manager = MissionManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -66,6 +68,7 @@ class Jarvis:
         self.task_manager.afficher_taches()
         self.project_manager.afficher_projets()
         self.knowledge_manager.afficher_connaissances()
+        self.mission_manager.afficher_missions()
         print("Système prêt.")
 
         while True:
@@ -84,8 +87,20 @@ class Jarvis:
         resultat = self.command_manager.traiter(commande)
 
         if "Commande inconnue" in resultat:
-            agent = self.decision_engine.choisir_agent(commande)
+            decision = self.decision_engine.decider(commande)
+            agent = decision["agent"]
+            analyse = decision["analyse"]
+
             print(f"[Agent : {agent}]")
+            if analyse.get("validation_requise"):
+                print(f"[Attention : cette action peut avoir un impact important - risques : {analyse.get('risques')}]")
+                mission = self.mission_manager.creer_mission(
+                    nom=analyse.get("resume", commande),
+                    objectif=commande,
+                    agents=[agent],
+                    priorite="haute" if analyse.get("risques") in ["moyen", "eleve"] else "normale"
+                )
+                print(f"[Mission creee : {mission['id']}]")
 
             contexte_agent = self.decision_engine.obtenir_contexte_agent(agent)
             contexte_complet = self.contexte + "\n\n" + contexte_agent

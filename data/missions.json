@@ -1,0 +1,28 @@
+{
+    "missions": [
+        {
+            "id": "405b49c5",
+            "nom": "Supprimer le fichier test.txt du systeme",
+            "objectif": "Supprime le fichier test.txt",
+            "agents": [
+                "07_automatisation_ia"
+            ],
+            "priorite": "haute",
+            "statut": "nouvelle",
+            "date_creation": "2026-07-26T23:23:18",
+            "date_maj": "2026-07-26T23:23:18"
+        },
+        {
+            "id": "6a25310e",
+            "nom": "Supprimer le fichier test.txt",
+            "objectif": "Supprime le fichier test.txt",
+            "agents": [
+                "07_automatisation_ia"
+            ],
+            "priorite": "haute",
+            "statut": "nouvelle",
+            "date_creation": "2026-07-26T23:28:55",
+            "date_maj": "2026-07-26T23:28:55"
+        }
+    ]
+}

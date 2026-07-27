@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-from tools import lire_fichier, ecrire_fichier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches
+from tools import lire_fichier, ecrire_fichier, supprimer_fichier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches
 
 load_dotenv()
 
@@ -33,6 +33,20 @@ OUTILS = [
                     "contenu": {"type": "string", "description": "Contenu a ecrire dans le fichier"}
                 },
                 "required": ["chemin", "contenu"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "supprimer_fichier",
+            "description": "Supprime definitivement un fichier du projet",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "chemin": {"type": "string", "description": "Chemin relatif du fichier a supprimer"}
+                },
+                "required": ["chemin"]
             }
         }
     },
@@ -100,6 +114,7 @@ OUTILS = [
 FONCTIONS_DISPONIBLES = {
     "lire_fichier": lire_fichier,
     "ecrire_fichier": ecrire_fichier,
+    "supprimer_fichier": supprimer_fichier,
     "rechercher_web": rechercher_web,
     "creer_projet": creer_projet,
     "ajouter_tache": ajouter_tache,
@@ -114,7 +129,7 @@ class AIEngine:
         self.url = "https://api.groq.com/openai/v1/chat/completions"
         self.model = "llama-3.3-70b-versatile"
         self.gemini_key = os.getenv("GEMINI_API_KEY")
-        self.gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+        self.gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 
     def demander(self, message, contexte="", historique=None):
         try:

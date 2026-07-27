@@ -20,6 +20,15 @@ def ecrire_fichier(chemin, contenu):
         f.write(contenu)
     return f"Fichier {chemin} écrit avec succès."
 
+def supprimer_fichier(chemin):
+    chemin_complet = os.path.abspath(chemin)
+    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+        return "Erreur : accès refusé en dehors du projet."
+    if not os.path.exists(chemin_complet):
+        return f"Erreur : le fichier {chemin} n'existe pas, rien a supprimer."
+    os.remove(chemin_complet)
+    return f"Fichier {chemin} supprime avec succes."
+
 import requests as _requests
 
 def rechercher_web(requete):

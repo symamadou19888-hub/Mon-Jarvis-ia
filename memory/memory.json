@@ -1,5 +1,18 @@
 {
     "souvenirs": [],
     "notes": [],
-    "historique": []
+    "historique": [
+        {
+            "question": "/Crée un fichier test.txt avec le texte \"test\"",
+            "reponse": "Le contenu du fichier test.txt est \"test\"."
+        },
+        {
+            "question": "\u0018",
+            "reponse": "Le contenu du fichier test.txt est \"test\"."
+        },
+        {
+            "question": "Supprime le fichier test.txt",
+            "reponse": "Le fichier test.txt est vide, il a donc été supprimé avec succès."
+        }
+    ]
 }
