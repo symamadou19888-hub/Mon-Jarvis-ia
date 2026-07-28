@@ -47,6 +47,18 @@
             "statut": "terminee",
             "date_creation": "2026-07-27T00:41:39",
             "date_maj": "2026-07-27T00:41:44"
+        },
+        {
+            "id": "dd8c520b",
+            "nom": "Gérer une demande utilisateur vide",
+            "objectif": "\u0018",
+            "agents": [
+                "00_directeur_ia"
+            ],
+            "priorite": "haute",
+            "statut": "en_cours",
+            "date_creation": "2026-07-27T22:12:40",
+            "date_maj": "2026-07-27T22:12:40"
         }
     ]
 }

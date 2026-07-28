@@ -3,8 +3,23 @@
     "notes": [],
     "historique": [
         {
-            "question": "Liste mes dépôts GitHub",
-            "reponse": "Voici la liste de vos dépôts GitHub :\n- symamadou19888-hub/Mon-Jarvis-ia"
+            "question": "Mémorise que mon prénom est Mado dans les préférences",
+            "reponse": "Votre prénom est bien Mado. Cette information est désormais enregistrée dans mes préférences pour future référence."
+        },
+        {
+            "question": "Comment je m'appelle déjà ?",
+            "reponse": "Vous vous appelez Mado."
         }
-    ]
+    ],
+    "projets": [
+        "Le projet Mon-Jarvis-ia utilise Groq et Gemini"
+    ],
+    "decisions": [],
+    "preferences": [
+        "Utilisateur s appelle Mado",
+        "prénom : Mado",
+        "Mado"
+    ],
+    "connaissances": [],
+    "erreurs": []
 }

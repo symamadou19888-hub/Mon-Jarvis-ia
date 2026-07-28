@@ -121,6 +121,35 @@ OUTILS = [
     {
         "type": "function",
         "function": {
+            "name": "memoriser_info",
+            "description": "Enregistre une information importante en memoire longue duree pour s en souvenir plus tard",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "categorie": {"type": "string", "description": "Categorie: projets, decisions, preferences, connaissances ou erreurs"},
+                    "contenu": {"type": "string", "description": "L information a memoriser"}
+                },
+                "required": ["categorie", "contenu"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "rechercher_souvenir",
+            "description": "Recherche une information precedemment memorisee",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "mot_cle": {"type": "string", "description": "Mot-cle a rechercher dans la memoire"}
+                },
+                "required": ["mot_cle"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "rechercher_web",
             "description": "Recherche des informations actuelles sur internet",
             "parameters": {
@@ -212,7 +241,8 @@ OUTILS_GEMINI = _convertir_outils_gemini(OUTILS)
 
 
 class AIEngine:
-    def __init__(self):
+    def __init__(self, memory_manager=None):
+        self.memory_manager = memory_manager
         self.api_key = os.getenv("GROQ_API_KEY")
         self.url = "https://api.groq.com/openai/v1/chat/completions"
         self.model = "llama-3.3-70b-versatile"
@@ -227,6 +257,14 @@ class AIEngine:
                 return self._demander_gemini(message, contexte, historique)
             except Exception as e:
                 return "Erreur IA (Groq et Gemini ont echoue) : " + str(e)
+
+    def _executer_outil(self, nom_fonction, arguments):
+        if nom_fonction == "memoriser_info" and self.memory_manager:
+            return self.memory_manager.memoriser(arguments.get("categorie"), arguments.get("contenu"))
+        if nom_fonction == "rechercher_souvenir" and self.memory_manager:
+            return self.memory_manager.rechercher_souvenir(arguments.get("mot_cle"))
+        fonction = FONCTIONS_DISPONIBLES.get(nom_fonction)
+        return fonction(**arguments) if fonction else "Outil inconnu."
 
     def _demander_groq(self, message, contexte="", historique=None):
         headers = {
@@ -261,8 +299,7 @@ class AIEngine:
                 for appel in choix["tool_calls"]:
                     nom_fonction = appel["function"]["name"]
                     arguments = json.loads(appel["function"]["arguments"]) or {}
-                    fonction = FONCTIONS_DISPONIBLES.get(nom_fonction)
-                    resultat = fonction(**arguments) if fonction else "Outil inconnu."
+                    resultat = self._executer_outil(nom_fonction, arguments)
                     messages.append({
                         "role": "tool",
                         "tool_call_id": appel["id"],
@@ -303,8 +340,7 @@ class AIEngine:
                 for appel in appels_fonction:
                     nom_fonction = appel["name"]
                     arguments = appel.get("args", {}) or {}
-                    fonction = FONCTIONS_DISPONIBLES.get(nom_fonction)
-                    resultat = fonction(**arguments) if fonction else "Outil inconnu."
+                    resultat = self._executer_outil(nom_fonction, arguments)
                     parts_resultats.append({
                         "functionResponse": {
                             "name": nom_fonction,
