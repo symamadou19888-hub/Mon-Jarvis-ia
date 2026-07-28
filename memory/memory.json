@@ -9,6 +9,10 @@
         {
             "question": "Comment je m'appelle déjà ?",
             "reponse": "Vous vous appelez Mado."
+        },
+        {
+            "question": "Bonjour Jarvis, bonjour Jarvis, il fait quelle heure ?",
+            "reponse": "Il est actuellement 09h38 dans la ville de New York. Si vous souhaitez connaître l'heure dans votre ville, merci de me donner votre localisation."
         }
     ],
     "projets": [

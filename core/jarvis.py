@@ -17,6 +17,7 @@ from decision_engine import DecisionEngine
 from mission_manager import MissionManager
 from coordination_manager import CoordinationManager
 from validation_manager import ValidationManager
+from voice_manager import VoiceManager
 from ai_engine import AIEngine
 from contexte_ia import charger_contexte
 
@@ -47,6 +48,7 @@ class Jarvis:
         self.mission_manager = MissionManager()
         self.coordination_manager = CoordinationManager(self.mission_manager, self.logger)
         self.validation_manager = ValidationManager(self.logger)
+        self.voice_manager = VoiceManager()
 
         self.nom = self.config["nom"]
         self.version = self.config["version"]
@@ -83,9 +85,22 @@ class Jarvis:
                 print("Jarvis arrêté.")
                 break
 
-            self.traiter_commande(commande)
+            mode_vocal = False
+            if commande.lower() in ["vocal", "voix", "parler"]:
+                print("[Ecoute en cours, parlez maintenant...]")
+                commande = self.voice_manager.ecouter_et_transcrire(5)
+                print(f"Vous (vocal) : {commande}")
+                mode_vocal = True
 
-    def traiter_commande(self, commande):
+                if not commande or commande.startswith("Erreur"):
+                    print("[Rien compris, reessayez.]")
+                    continue
+
+            reponse_pour_voix = self.traiter_commande(commande, retourner_reponse=True)
+            if mode_vocal and reponse_pour_voix:
+                self.voice_manager.parler(reponse_pour_voix)
+
+    def traiter_commande(self, commande, retourner_reponse=False):
         self.logger.enregistrer(f"Commande reçue : {commande}")
 
         resultat = self.command_manager.traiter(commande)
@@ -133,5 +148,10 @@ class Jarvis:
                 reponse_a_memoriser = reponse.replace("[Secours Gemini] ", "").strip()
                 self.memory_manager.ajouter_echange(commande, reponse_a_memoriser)
 
+            if retourner_reponse:
+                return reponse
+
         else:
             print(resultat)
+            if retourner_reponse:
+                return resultat
