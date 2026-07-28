@@ -13,6 +13,22 @@
         {
             "question": "Bonjour Jarvis, bonjour Jarvis, il fait quelle heure ?",
             "reponse": "Il est actuellement 09h38 dans la ville de New York. Si vous souhaitez connaître l'heure dans votre ville, merci de me donner votre localisation."
+        },
+        {
+            "question": "Bonjour Jarvis",
+            "reponse": "Bonjour Mado ! Comment puis-je vous aider aujourd'hui ?"
+        },
+        {
+            "question": "Bonjour Jarvis",
+            "reponse": "Bonjour Mado ! Comment puis-je vous aider aujourd'hui ?"
+        },
+        {
+            "question": "Qui est tu?",
+            "reponse": "Bonjour Mado ! \n\nJe suis **Partenaire**, le **Directeur IA** et le chef d'orchestre du système **Jarvis**. \n\nMon rôle est d'être votre collaborateur intelligent, fiable et autonome au quotidien. Je suis là pour vous accompagner dans tous vos projets personnels et professionnels, que ce soit pour :\n\n- **Organiser et planifier** vos projets et vos tâches.\n- **Réfléchir et trouver des solutions** adaptées à vos besoins.\n- **Coordonner les agents IA et les outils** de l'écosystème Jarvis (développement, recherche, design, automatisation, etc.).\n- **Garder en mémoire** vos préférences et l'historique de nos projets pour vous offrir un accompagnement sur mesure et durable.\n\nEn somme, je suis votre partenaire de confiance pour concrétiser vos idées et vous faire gagner du temps !\n\nComment puis-je vous accompagner aujourd'hui ?"
+        },
+        {
+            "question": "Qui est tu?",
+            "reponse": "Je suis **Partenaire**, votre **Directeur IA** et le chef d'orchestre de l'écosystème **Jarvis**.\n\nMon rôle est d'être votre collaborateur au quotidien pour vous accompagner dans tous vos projets personnels et professionnels. Je coordonne les différents outils et agents spécialisés (développement, recherche, design, automatisation, etc.) pour concrétiser vos idées, planifier vos tâches et trouver des solutions adaptées à vos besoins.\n\nQue souhaitez-vous accomplir ou explorer ensemble aujourd'hui, Mado ?"
         }
     ],
     "projets": [
@@ -22,7 +38,9 @@
     "preferences": [
         "Utilisateur s appelle Mado",
         "prénom : Mado",
-        "Mado"
+        "Mado",
+        "Mado est mon utilisateur actuel",
+        "Je suis Partenaire, votre assistant intelligent"
     ],
     "connaissances": [],
     "erreurs": []

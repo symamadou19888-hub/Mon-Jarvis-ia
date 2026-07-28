@@ -10,24 +10,14 @@
     <p>Assistant IA opérationnel</p>
 
     <form action="/envoyer" method="post">
-        <input
-            type="text"
-            name="message"
+        <input 
+            type="text" 
+            name="message" 
             placeholder="Écris ta demande..."
             required
         >
         <button type="submit">Envoyer</button>
     </form>
-
-    {% if message %}
-    <h2>Vous :</h2>
-    <p>{{ message }}</p>
-    {% endif %}
-
-    {% if reponse %}
-    <h2>Jarvis :</h2>
-    <p>{{ reponse }}</p>
-    {% endif %}
 
 </body>
 </html>

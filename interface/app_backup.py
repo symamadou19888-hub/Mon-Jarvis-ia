@@ -18,11 +18,7 @@ def accueil():
 def envoyer():
     message = request.form["message"]
     reponse = jarvis.traiter_commande(message, retourner_reponse=True)
-    return render_template(
-        "index.html",
-        message=message,
-        reponse=reponse
-    )
+    return reponse
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
