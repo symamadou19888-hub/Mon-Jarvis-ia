@@ -58,6 +58,9 @@ def creer_dossier(chemin):
 
 def rechercher_web(requete):
     api_key = os.getenv("TAVILY_API_KEY")
+    if not api_key:
+        return "Erreur : cle API Tavily manquante (verifie le fichier .env)."
+
     url = "https://api.tavily.com/search"
     payload = {
         "api_key": api_key,
@@ -66,15 +69,25 @@ def rechercher_web(requete):
     }
     try:
         reponse = requests.post(url, json=payload, timeout=15)
-        reponse.raise_for_status()
+        if reponse.status_code == 401:
+            return "Erreur : cle API Tavily invalide ou expiree."
+        if reponse.status_code == 429:
+            return "Erreur : limite de requetes Tavily atteinte, reessaie plus tard."
+        if reponse.status_code != 200:
+            return f"Erreur recherche web : code {reponse.status_code}."
+
         data = reponse.json()
         resultats = data.get("results", [])
         texte = ""
         for r in resultats:
             texte += f"- {r.get('title')}: {r.get('content')[:200]}\n"
-        return texte if texte else "Aucun resultat trouve."
+        return texte if texte else "Aucun resultat trouve pour cette recherche."
+    except requests.exceptions.Timeout:
+        return "Erreur : la recherche web a expire (timeout)."
+    except requests.exceptions.ConnectionError:
+        return "Erreur : impossible de se connecter a Tavily (verifie ta connexion internet)."
     except Exception as e:
-        return f"Erreur recherche web : {e}"
+        return f"Erreur recherche web inattendue : {e}"
 
 CHEMIN_DONNEES = os.path.join("data", "projets_taches.json")
 
