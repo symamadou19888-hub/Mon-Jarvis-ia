@@ -138,29 +138,48 @@ def _headers_github():
     token = os.getenv("GITHUB_TOKEN")
     return {"Authorization": f"token {token}", "Accept": "application/vnd.github+json"}
 
+def _interpreter_erreur_github(status_code, contexte=""):
+    if status_code == 401:
+        return "Erreur : token GitHub invalide ou expire."
+    if status_code == 403:
+        return "Erreur : acces refuse ou limite de requetes GitHub atteinte."
+    if status_code == 404:
+        return f"Erreur : {contexte} introuvable sur GitHub."
+    return f"Erreur GitHub : code {status_code}."
+
 def github_lister_repos():
     url = "https://api.github.com/user/repos"
     try:
         r = requests.get(url, headers=_headers_github(), timeout=15)
-        r.raise_for_status()
+        if r.status_code != 200:
+            return _interpreter_erreur_github(r.status_code, "les depots")
         repos = r.json()
         if not repos:
             return "Aucun depot trouve."
         return "\n".join(f"- {repo['full_name']}" for repo in repos)
+    except requests.exceptions.Timeout:
+        return "Erreur : la connexion a GitHub a expire (timeout)."
+    except requests.exceptions.ConnectionError:
+        return "Erreur : impossible de se connecter a GitHub (verifie ta connexion internet)."
     except Exception as e:
-        return f"Erreur GitHub : {e}"
+        return f"Erreur GitHub inattendue : {e}"
 
 def github_lire_fichier(repo, chemin):
     url = f"https://api.github.com/repos/{repo}/contents/{chemin}"
     try:
         r = requests.get(url, headers=_headers_github(), timeout=15)
-        r.raise_for_status()
+        if r.status_code != 200:
+            return _interpreter_erreur_github(r.status_code, f"le fichier {chemin} dans {repo}")
         data = r.json()
         contenu_b64 = data.get("content", "")
         contenu_decode = base64.b64decode(contenu_b64).decode("utf-8")
         return contenu_decode
+    except requests.exceptions.Timeout:
+        return "Erreur : la connexion a GitHub a expire (timeout)."
+    except requests.exceptions.ConnectionError:
+        return "Erreur : impossible de se connecter a GitHub (verifie ta connexion internet)."
     except Exception as e:
-        return f"Erreur GitHub : {e}"
+        return f"Erreur GitHub inattendue : {e}"
 
 def github_ecrire_fichier(repo, chemin, contenu, message="Mise a jour via Jarvis"):
     url = f"https://api.github.com/repos/{repo}/contents/{chemin}"
@@ -169,6 +188,8 @@ def github_ecrire_fichier(repo, chemin, contenu, message="Mise a jour via Jarvis
         r_check = requests.get(url, headers=_headers_github(), timeout=15)
         if r_check.status_code == 200:
             sha = r_check.json().get("sha")
+        elif r_check.status_code not in (200, 404):
+            return _interpreter_erreur_github(r_check.status_code, f"le fichier {chemin} dans {repo}")
 
         contenu_b64 = base64.b64encode(contenu.encode("utf-8")).decode("utf-8")
         payload = {"message": message, "content": contenu_b64}
@@ -176,10 +197,15 @@ def github_ecrire_fichier(repo, chemin, contenu, message="Mise a jour via Jarvis
             payload["sha"] = sha
 
         r = requests.put(url, headers=_headers_github(), json=payload, timeout=15)
-        r.raise_for_status()
+        if r.status_code not in (200, 201):
+            return _interpreter_erreur_github(r.status_code, f"l'ecriture de {chemin} dans {repo}")
         return f"Fichier {chemin} envoye avec succes sur {repo}."
+    except requests.exceptions.Timeout:
+        return "Erreur : la connexion a GitHub a expire (timeout)."
+    except requests.exceptions.ConnectionError:
+        return "Erreur : impossible de se connecter a GitHub (verifie ta connexion internet)."
     except Exception as e:
-        return f"Erreur GitHub : {e}"
+        return f"Erreur GitHub inattendue : {e}"
 
 def terminer_tache(nom):
     donnees = _charger_donnees()
