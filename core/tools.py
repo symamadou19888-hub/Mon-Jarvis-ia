@@ -207,3 +207,15 @@ def supprimer_projet(nom):
         return f"Erreur : projet '{nom}' introuvable."
     _sauvegarder_donnees(donnees)
     return f"Projet '{nom}' supprime avec succes."
+
+def modifier_statut_projet(nom, nouveau_statut):
+    statuts_valides = ["en cours", "en pause", "termine", "annule"]
+    if nouveau_statut.strip().lower() not in statuts_valides:
+        return f"Erreur : statut invalide. Statuts valides : {', '.join(statuts_valides)}."
+    donnees = _charger_donnees()
+    for p in donnees["projets"]:
+        if p["nom"].strip().lower() == nom.strip().lower():
+            p["statut"] = nouveau_statut.strip().lower()
+            _sauvegarder_donnees(donnees)
+            return f"Projet '{nom}' passe au statut '{nouveau_statut}'."
+    return f"Erreur : projet '{nom}' introuvable."

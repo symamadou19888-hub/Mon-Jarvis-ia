@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-from tools import lire_fichier, ecrire_fichier, supprimer_fichier, lister_fichiers, creer_dossier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches, github_lister_repos, github_lire_fichier, github_ecrire_fichier
+from tools import lire_fichier, ecrire_fichier, supprimer_fichier, lister_fichiers, creer_dossier, rechercher_web, creer_projet, ajouter_tache, lister_projets, lister_taches, terminer_tache, supprimer_tache, supprimer_projet, modifier_statut_projet, github_lister_repos, github_lire_fichier, github_ecrire_fichier
 
 load_dotenv()
 
@@ -205,6 +205,63 @@ OUTILS = [
             "description": "Liste toutes les taches enregistrees",
             "parameters": {"type": "object", "properties": {}}
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "terminer_tache",
+            "description": "Marque une tache comme terminee",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "nom": {"type": "string", "description": "Le nom de la tache a terminer"}
+                },
+                "required": ["nom"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "supprimer_tache",
+            "description": "Supprime une tache du suivi",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "nom": {"type": "string", "description": "Le nom de la tache a supprimer"}
+                },
+                "required": ["nom"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "supprimer_projet",
+            "description": "Supprime un projet du suivi",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "nom": {"type": "string", "description": "Le nom du projet a supprimer"}
+                },
+                "required": ["nom"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "modifier_statut_projet",
+            "description": "Modifie le statut d'un projet (en cours, en pause, termine, annule)",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "nom": {"type": "string", "description": "Le nom du projet"},
+                    "nouveau_statut": {"type": "string", "description": "Le nouveau statut : en cours, en pause, termine ou annule"}
+                },
+                "required": ["nom", "nouveau_statut"]
+            }
+        }
     }
 ]
 
@@ -221,7 +278,11 @@ FONCTIONS_DISPONIBLES = {
     "creer_projet": creer_projet,
     "ajouter_tache": ajouter_tache,
     "lister_projets": lister_projets,
-    "lister_taches": lister_taches
+    "lister_taches": lister_taches,
+    "terminer_tache": terminer_tache,
+    "supprimer_tache": supprimer_tache,
+    "supprimer_projet": supprimer_projet,
+    "modifier_statut_projet": modifier_statut_projet
 }
 
 
