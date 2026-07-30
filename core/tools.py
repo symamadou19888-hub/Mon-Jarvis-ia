@@ -3,10 +3,31 @@ import json
 import requests
 import base64
 
-DOSSIER_AUTORISE = os.getcwd()
+DOSSIER_AUTORISE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _chemin_autorise(chemin_complet):
     return os.path.commonpath([chemin_complet, DOSSIER_AUTORISE]) == DOSSIER_AUTORISE
+
+FICHIERS_PROTEGES = [
+    os.path.join(DOSSIER_AUTORISE, ".env"),
+    os.path.join(DOSSIER_AUTORISE, ".git"),
+]
+
+DOSSIERS_PROTEGES = [
+    os.path.join(DOSSIER_AUTORISE, "core"),
+]
+
+def _fichier_protege(chemin_complet):
+    for proteg in FICHIERS_PROTEGES:
+        if chemin_complet == proteg:
+            return True
+    for dossier in DOSSIERS_PROTEGES:
+        try:
+            if os.path.commonpath([chemin_complet, dossier]) == dossier:
+                return True
+        except ValueError:
+            continue
+    return False
 
 def lire_fichier(chemin):
     chemin_complet = os.path.abspath(chemin)
@@ -21,6 +42,8 @@ def ecrire_fichier(chemin, contenu):
     chemin_complet = os.path.abspath(chemin)
     if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
+    if _fichier_protege(chemin_complet):
+        return f"Erreur : {chemin} est un fichier protege, modification refusee."
     with open(chemin_complet, "w", encoding="utf-8") as f:
         f.write(contenu)
     return f"Fichier {chemin} écrit avec succès."
@@ -29,6 +52,8 @@ def supprimer_fichier(chemin):
     chemin_complet = os.path.abspath(chemin)
     if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
+    if _fichier_protege(chemin_complet):
+        return f"Erreur : {chemin} est un fichier protege, suppression refusee."
     if not os.path.exists(chemin_complet):
         return f"Erreur : le fichier {chemin} n'existe pas, rien a supprimer."
     os.remove(chemin_complet)
