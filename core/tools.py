@@ -1,12 +1,16 @@
 import os
 import json
 import requests
+import base64
 
 DOSSIER_AUTORISE = os.getcwd()
 
+def _chemin_autorise(chemin_complet):
+    return os.path.commonpath([chemin_complet, DOSSIER_AUTORISE]) == DOSSIER_AUTORISE
+
 def lire_fichier(chemin):
     chemin_complet = os.path.abspath(chemin)
-    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+    if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
     if not os.path.exists(chemin_complet):
         return f"Erreur : le fichier {chemin} n'existe pas."
@@ -15,7 +19,7 @@ def lire_fichier(chemin):
 
 def ecrire_fichier(chemin, contenu):
     chemin_complet = os.path.abspath(chemin)
-    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+    if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
     with open(chemin_complet, "w", encoding="utf-8") as f:
         f.write(contenu)
@@ -23,7 +27,7 @@ def ecrire_fichier(chemin, contenu):
 
 def supprimer_fichier(chemin):
     chemin_complet = os.path.abspath(chemin)
-    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+    if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
     if not os.path.exists(chemin_complet):
         return f"Erreur : le fichier {chemin} n'existe pas, rien a supprimer."
@@ -32,7 +36,7 @@ def supprimer_fichier(chemin):
 
 def lister_fichiers(dossier="."):
     chemin_complet = os.path.abspath(dossier)
-    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+    if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
     if not os.path.exists(chemin_complet):
         return f"Erreur : le dossier {dossier} n'existe pas."
@@ -45,14 +49,12 @@ def lister_fichiers(dossier="."):
 
 def creer_dossier(chemin):
     chemin_complet = os.path.abspath(chemin)
-    if not chemin_complet.startswith(DOSSIER_AUTORISE):
+    if not _chemin_autorise(chemin_complet):
         return "Erreur : accès refusé en dehors du projet."
     if os.path.exists(chemin_complet):
         return f"Le dossier {chemin} existe deja."
     os.makedirs(chemin_complet)
     return f"Dossier {chemin} cree avec succes."
-
-import requests as _requests
 
 def rechercher_web(requete):
     api_key = os.getenv("TAVILY_API_KEY")
@@ -63,7 +65,7 @@ def rechercher_web(requete):
         "max_results": 3
     }
     try:
-        reponse = _requests.post(url, json=payload, timeout=15)
+        reponse = requests.post(url, json=payload, timeout=15)
         reponse.raise_for_status()
         data = reponse.json()
         resultats = data.get("results", [])
@@ -79,10 +81,17 @@ CHEMIN_DONNEES = os.path.join("data", "projets_taches.json")
 def _charger_donnees():
     if not os.path.exists(CHEMIN_DONNEES):
         return {"projets": [], "taches": []}
-    with open(CHEMIN_DONNEES, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(CHEMIN_DONNEES, "r", encoding="utf-8") as f:
+            donnees = json.load(f)
+            donnees.setdefault("projets", [])
+            donnees.setdefault("taches", [])
+            return donnees
+    except (json.JSONDecodeError, ValueError):
+        return {"projets": [], "taches": []}
 
 def _sauvegarder_donnees(donnees):
+    os.makedirs(os.path.dirname(CHEMIN_DONNEES), exist_ok=True)
     with open(CHEMIN_DONNEES, "w", encoding="utf-8") as f:
         json.dump(donnees, f, indent=4, ensure_ascii=False)
 
@@ -118,9 +127,6 @@ def lister_taches():
             texte += f" (projet: {t['projet']})"
         texte += "\n"
     return texte
-
-
-import base64
 
 def _headers_github():
     token = os.getenv("GITHUB_TOKEN")
