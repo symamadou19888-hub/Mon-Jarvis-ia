@@ -97,12 +97,18 @@ def _sauvegarder_donnees(donnees):
 
 def creer_projet(nom):
     donnees = _charger_donnees()
+    for p in donnees["projets"]:
+        if p["nom"].strip().lower() == nom.strip().lower():
+            return f"Erreur : le projet '{nom}' existe deja."
     donnees["projets"].append({"nom": nom, "statut": "en cours"})
     _sauvegarder_donnees(donnees)
     return f"Projet '{nom}' cree avec succes."
 
 def ajouter_tache(nom, projet=""):
     donnees = _charger_donnees()
+    for t in donnees["taches"]:
+        if t["nom"].strip().lower() == nom.strip().lower() and t["projet"].strip().lower() == projet.strip().lower():
+            return f"Erreur : la tache '{nom}' existe deja pour ce projet."
     donnees["taches"].append({"nom": nom, "projet": projet, "statut": "en attente"})
     _sauvegarder_donnees(donnees)
     return f"Tache '{nom}' ajoutee avec succes."
@@ -174,3 +180,30 @@ def github_ecrire_fichier(repo, chemin, contenu, message="Mise a jour via Jarvis
         return f"Fichier {chemin} envoye avec succes sur {repo}."
     except Exception as e:
         return f"Erreur GitHub : {e}"
+
+def terminer_tache(nom):
+    donnees = _charger_donnees()
+    for t in donnees["taches"]:
+        if t["nom"] == nom:
+            t["statut"] = "terminee"
+            _sauvegarder_donnees(donnees)
+            return f"Tache '{nom}' marquee comme terminee."
+    return f"Erreur : tache '{nom}' introuvable."
+
+def supprimer_tache(nom):
+    donnees = _charger_donnees()
+    taille_avant = len(donnees["taches"])
+    donnees["taches"] = [t for t in donnees["taches"] if t["nom"] != nom]
+    if len(donnees["taches"]) == taille_avant:
+        return f"Erreur : tache '{nom}' introuvable."
+    _sauvegarder_donnees(donnees)
+    return f"Tache '{nom}' supprimee avec succes."
+
+def supprimer_projet(nom):
+    donnees = _charger_donnees()
+    taille_avant = len(donnees["projets"])
+    donnees["projets"] = [p for p in donnees["projets"] if p["nom"] != nom]
+    if len(donnees["projets"]) == taille_avant:
+        return f"Erreur : projet '{nom}' introuvable."
+    _sauvegarder_donnees(donnees)
+    return f"Projet '{nom}' supprime avec succes."
